@@ -1,0 +1,25 @@
+# Agent Code Library — welcome crawlers
+User-agent: *
+Allow: /
+Allow: /api/v1/
+Allow: /static/
+Allow: /.well-known/
+Sitemap: https://aicode.iamfaulty.com/static/sitemap.xml
+
+# Special welcome for AI crawlers
+User-agent: GPTBot
+Allow: /
+Allow: /api/v1/search
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /api/v1/search
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /

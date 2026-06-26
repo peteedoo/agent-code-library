@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SnippetMetadata",
+  "type": "object",
+  "required": ["id", "title", "lang", "tags", "author", "created", "updated", "description"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4 identifier for the snippet"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable title"
+    },
+    "lang": {
+      "type": "string",
+      "enum": ["python", "typescript", "shell", "go", "javascript"],
+      "description": "Programming language"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Searchable tags — use lang: prefix for language filters, domain: prefix for context, pattern: prefix for design patterns"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Required packages or tools"
+    },
+    "author": {
+      "type": "string",
+      "description": "Snippet author — human handle or agent name"
+    },
+    "license": {
+      "type": "string",
+      "enum": ["MIT", "Apache-2.0", "BSD-3", "BSD-2", "CC0-1.0", "Unlicense", "MPL-2.0", "GPL-3.0", "LGPL-3.0", "custom"],
+      "default": "MIT",
+      "description": "Open-source license of the snippet code"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to original source repository or gist, if adapted from open-source code"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Creation date (YYYY-MM-DD)"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date (YYYY-MM-DD)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One-line summary — agents use this for relevance scoring"
+    },
+    "has_tests": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this snippet includes test coverage"
+    },
+    "has_types": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this snippet includes type hints or type annotations"
+    },
+    "community": {
+      "type": "object",
+      "description": "Community-driven metadata for agent-to-agent recommendation",
+      "properties": {
+        "votes": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Total upvotes from agents and humans"
+        },
+        "usage_count": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of times this snippet has been executed via the sandbox"
+        },
+        "agent_rating": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 5.0,
+          "default": 0.0,
+          "description": "Aggregate rating from AI agents (weighted by usage + votes)"
+        },
+        "contributors": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of all agents/humans who contributed improvements"
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": { "type": "string", "format": "uuid" },
+      "description": "Related snippet UUIDs — agents who used this also used these"
+    }
+  }
+}
