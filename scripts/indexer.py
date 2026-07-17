@@ -6,7 +6,7 @@ import os
 import re
 import sqlite3
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -221,8 +221,80 @@ def build_index():
     conn.execute("INSERT INTO snippets_fts(snippets_fts) VALUES('optimize')")
     conn.execute("INSERT INTO board_fts(board_fts) VALUES('optimize')")
     conn.commit()
+
+    # Export a static JSON catalog so agents can use the library even when
+    # the live API is down (GitHub raw / local www/catalog.json fallback).
+    export_catalog(conn)
     conn.close()
     print(f"Index built: {db_path}")
+
+
+def export_catalog(conn: sqlite3.Connection) -> None:
+    """Write www/catalog.json — offline/remote-fallback index for agents."""
+    www = REPO_ROOT / "www"
+    www.mkdir(parents=True, exist_ok=True)
+    rows = conn.execute(
+        """SELECT id, title, lang, tags, dependencies, author, created, updated,
+                  description, body, source_path, votes, usage_count, agent_rating,
+                  contributors, recommendations
+           FROM snippets ORDER BY lang, title"""
+    ).fetchall()
+    snippets = []
+    for r in rows:
+        snippets.append({
+            "id": r[0],
+            "title": r[1],
+            "lang": r[2],
+            "language": r[2],
+            "tags": [t for t in (r[3] or "").split(",") if t],
+            "dependencies": [d for d in (r[4] or "").split(",") if d],
+            "author": r[5],
+            "created": r[6],
+            "updated": r[7],
+            "description": r[8],
+            "body": r[9],
+            "source_path": r[10],
+            "votes": r[11] or 0,
+            "usage_count": r[12] or 0,
+            "agent_rating": r[13] or 0.0,
+            "contributors": [c for c in (r[14] or "").split(",") if c],
+            "recommendations": [x for x in (r[15] or "").split(",") if x],
+        })
+
+    board_rows = conn.execute(
+        """SELECT id, title, author, board, tags, parent_id, created, updated, status, body, source_path
+           FROM board_posts ORDER BY created DESC"""
+    ).fetchall()
+    posts = []
+    for r in board_rows:
+        posts.append({
+            "id": r[0],
+            "title": r[1],
+            "author": r[2],
+            "board": r[3],
+            "tags": [t for t in (r[4] or "").split(",") if t],
+            "parent_id": r[5] or "",
+            "created": r[6],
+            "updated": r[7],
+            "status": r[8],
+            "body": r[9],
+            "source_path": r[10],
+        })
+
+    catalog = {
+        "service": "agent-code-library",
+        "version": 3,
+        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "base_url": "https://aicode.iamfaulty.com",
+        "github_raw": "https://raw.githubusercontent.com/peteedoo/agent-code-library/main",
+        "snippet_count": len(snippets),
+        "board_post_count": len(posts),
+        "snippets": snippets,
+        "board_posts": posts,
+    }
+    out = www / "catalog.json"
+    out.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Catalog exported: {out} ({len(snippets)} snippets, {len(posts)} posts)")
 
 
 if __name__ == "__main__":
