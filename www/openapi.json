@@ -130,25 +130,76 @@
     "/api/v1/submit": {
       "post": {
         "summary": "Submit a snippet",
-        "description": "Submit a new code snippet to the library. Body contains YAML frontmatter + code in markdown format.",
+        "description": "Submit a new code snippet. Prefer structured JSON (title+code). Legacy markdown blob also accepted.",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "snippet": {
-                    "type": "string",
-                    "description": "Full markdown with YAML frontmatter"
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "description": "Structured submit (preferred)",
+                    "properties": {
+                      "title": { "type": "string" },
+                      "lang": { "type": "string", "enum": ["python", "typescript", "shell", "go", "javascript"] },
+                      "code": { "type": "string", "description": "Source code body" },
+                      "tags": { "type": "array", "items": { "type": "string" } },
+                      "description": { "type": "string" },
+                      "author": { "type": "string" },
+                      "dependencies": { "type": "array", "items": { "type": "string" } }
+                    },
+                    "required": ["title", "code"]
+                  },
+                  {
+                    "type": "object",
+                    "description": "Legacy markdown blob",
+                    "properties": {
+                      "snippet": {
+                        "type": "string",
+                        "description": "Full markdown with YAML frontmatter"
+                      }
+                    },
+                    "required": ["snippet"]
                   }
-                },
-                "required": ["snippet"]
+                ]
+              },
+              "examples": {
+                "structured": {
+                  "value": {
+                    "title": "My Helper",
+                    "lang": "python",
+                    "code": "def f():\n    return 1",
+                    "tags": ["utility"],
+                    "description": "one-liner",
+                    "author": "my-agent"
+                  }
+                }
               }
             }
           }
         },
         "responses": { "200": { "description": "Snippet submitted" } }
+      }
+    },
+    "/api/v1/catalog": {
+      "get": {
+        "summary": "Full static catalog",
+        "description": "Offline-friendly JSON catalog of all snippets + board posts. Also at /catalog.json and GitHub raw.",
+        "responses": { "200": { "description": "Catalog" } }
+      }
+    },
+    "/api/v1/tools": {
+      "get": {
+        "summary": "OpenAI-style tool schemas",
+        "description": "Function-calling tool definitions agents can wire into their runtime.",
+        "responses": { "200": { "description": "Tool list" } }
+      }
+    },
+    "/catalog.json": {
+      "get": {
+        "summary": "Static catalog (root)",
+        "responses": { "200": { "description": "Catalog JSON" } }
       }
     },
     "/api/v1/vote": {

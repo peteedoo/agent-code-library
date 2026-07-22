@@ -56,6 +56,7 @@ _DISCOVERY_FILES = {
     "/llms-full.txt": "llms-full.txt",
     "/robots.txt": "robots.txt",
     "/sitemap.xml": "sitemap.xml",
+    "/catalog.json": "catalog.json",
     "/.well-known/agent-services": ".well-known/agent-services",
 }
 
@@ -64,17 +65,21 @@ _DISCOVERY_FILES = {
 @app.get("/llms-full.txt", include_in_schema=False)
 @app.get("/robots.txt", include_in_schema=False)
 @app.get("/sitemap.xml", include_in_schema=False)
+@app.get("/catalog.json", include_in_schema=False)
 @app.get("/.well-known/agent-services", include_in_schema=False)
 async def discovery(request: Request):
     """Serve agent-discovery files from the www directory at root paths."""
-    from fastapi.responses import FileResponse, PlainTextResponse
+    from fastapi.responses import FileResponse, PlainTextResponse, JSONResponse
     rel = _DISCOVERY_FILES.get(str(request.url.path))
     if not rel:
         return PlainTextResponse("Not Found", status_code=404)
     fpath = WWW_DIR / rel
-    if fpath.exists():
-        return PlainTextResponse(fpath.read_text("utf-8"))
-    return PlainTextResponse("Not Found", status_code=404)
+    if not fpath.exists():
+        return PlainTextResponse("Not Found", status_code=404)
+    text = fpath.read_text("utf-8")
+    if rel.endswith(".json"):
+        return JSONResponse(content=json.loads(text))
+    return PlainTextResponse(text)
 
 
 @app.get("/")
@@ -309,12 +314,58 @@ async def api_recommend(
 
 @app.post("/api/v1/submit")
 async def api_submit(request: Request):
-    body = await request.json()
-    snippet_text = body.get("snippet", "").strip()
-    if not snippet_text:
-        raise HTTPException(status_code=400, detail="'snippet' field required")
+    """Submit a snippet.
 
+    Two accepted shapes (agents: prefer the structured one):
+
+    1) Structured (easy):
+       {"title": "...", "lang": "python", "code": "def f(): ...", "tags": ["utility"],
+        "description": "...", "author": "handle"}
+
+    2) Markdown blob (legacy):
+       {"snippet": "---\\ntitle: ...\\n---\\n\\n```python\\n...\\n```"}
+    """
+    body = await request.json()
     import yaml
+
+    snippet_text = (body.get("snippet") or "").strip()
+    if not snippet_text:
+        # Structured submit — build markdown from fields
+        title = (body.get("title") or "").strip()
+        code = (body.get("code") or body.get("body") or "").strip()
+        if not title or not code:
+            raise HTTPException(
+                status_code=400,
+                detail="Provide either 'snippet' (markdown) OR structured fields: title + code "
+                       "(optional: lang, tags, description, author, dependencies)",
+            )
+        lang = (body.get("lang") or body.get("language") or "python").strip()
+        tags = body.get("tags") or []
+        if isinstance(tags, str):
+            tags = [t.strip() for t in tags.split(",") if t.strip()]
+        author = (body.get("author") or "anonymous").strip() or "anonymous"
+        description = (body.get("description") or title).strip()
+        deps = body.get("dependencies") or []
+        if isinstance(deps, str):
+            deps = [d.strip() for d in deps.split(",") if d.strip()]
+        fence = lang if lang in ("python", "typescript", "javascript", "go", "shell", "bash") else ""
+        if lang == "shell":
+            fence = "bash"
+        meta = {
+            "title": title,
+            "lang": lang,
+            "tags": tags,
+            "author": author,
+            "description": description,
+            "dependencies": deps,
+        }
+        snippet_text = (
+            "---\n"
+            + yaml.dump(meta, default_flow_style=False, sort_keys=False).strip()
+            + "\n---\n\n"
+            + f"```{fence}\n{code}\n```\n"
+        )
+
     m = re.match(r"^---\s*\n(.*?)\n---\s*\n", snippet_text, re.DOTALL)
     if not m:
         raise HTTPException(status_code=400, detail="No YAML frontmatter found")
@@ -330,7 +381,7 @@ async def api_submit(request: Request):
     meta.setdefault("tags", [])
 
     lang = meta.get("lang", "python")
-    title_slug = meta.get("title", "untitled").lower().replace(" ", "-")[:48]
+    title_slug = re.sub(r"[^a-z0-9\-]+", "-", meta.get("title", "untitled").lower()).strip("-")[:48] or "untitled"
     target = REPO_ROOT / "snippets" / lang / f"{title_slug}.md"
     target.parent.mkdir(parents=True, exist_ok=True)
 
@@ -713,9 +764,22 @@ Then the code body in triple-backtick fenced blocks.
 """)
 
 
+@app.get("/api/v1/catalog")
+async def api_catalog():
+    """Full offline-friendly catalog (same as /catalog.json). Use when API search is unavailable."""
+    path = WWW_DIR / "catalog.json"
+    if not path.exists():
+        raise HTTPException(status_code=503, detail="Catalog not built yet — run indexer")
+    return json.loads(path.read_text("utf-8"))
+
+
 @app.get("/api/v1/tools")
 async def agent_tools():
-    """OpenAI-style tool definitions for agent frameworks that support function calling."""
+    """OpenAI-style tool definitions for agent frameworks that support function calling.
+
+    Wire these into your agent: for each tool call, map name → HTTP request below.
+    Base URL: https://aicode.iamfaulty.com
+    """
     return [
         {
             "type": "function",

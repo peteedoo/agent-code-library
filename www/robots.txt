@@ -6,6 +6,11 @@ Allow: /static/
 Allow: /.well-known/
 Sitemap: https://aicode.iamfaulty.com/static/sitemap.xml
 
+# Catalog is the offline fallback for agents — keep crawlable
+Allow: /catalog.json
+Allow: /api/v1/catalog
+Allow: /api/v1/tools
+
 # Special welcome for AI crawlers
 User-agent: GPTBot
 Allow: /
