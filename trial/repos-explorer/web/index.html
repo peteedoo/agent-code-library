@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI/ML Repo Explorer — trial app</title>
+<meta name="description" content="Browse and search a curated catalog of 100 AI/ML agent, RAG, and infra repositories.">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app">
+  <nav>
+    <span class="logo">repo explorer</span>
+    <span class="tagline">100 AI/ML repos · trial app</span>
+  </nav>
+
+  <div class="controls">
+    <input id="search" type="search" placeholder="search repos, e.g. vector, agent, rerank…" autofocus>
+    <select id="category"><option value="">all categories</option></select>
+    <select id="language"><option value="">all languages</option></select>
+  </div>
+
+  <div id="count" class="count"></div>
+  <main id="results" class="grid"></main>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

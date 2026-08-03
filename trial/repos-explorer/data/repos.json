@@ -1,0 +1,1028 @@
+{
+  "name": "AI/ML Repo Explorer",
+  "count": 100,
+  "categories": [
+    "Agent Frameworks",
+    "Browser & Web Automation",
+    "Code Agents & Dev Tools",
+    "Embeddings & Rerankers",
+    "Evaluation & Testing",
+    "Guardrails & Safety",
+    "Memory",
+    "Messaging & Infra",
+    "Model Serving & Inference",
+    "Observability & Tracing",
+    "Protocols & Interop",
+    "RAG & Search",
+    "Sandboxes & Execution",
+    "Scraping & Ingestion",
+    "Structured Output",
+    "Task Queues & Jobs",
+    "Tools & Integrations",
+    "UI & Frontend",
+    "Vector Databases",
+    "Workflow & Orchestration"
+  ],
+  "repos": [
+    {
+      "id": "langchain-ai-langgraph",
+      "name": "langgraph",
+      "owner": "langchain-ai",
+      "full_name": "langchain-ai/langgraph",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Stateful, graph-based orchestration for multi-actor LLM apps."
+    },
+    {
+      "id": "pydantic-ai-pydantic-ai",
+      "name": "pydantic-ai",
+      "owner": "pydantic-ai",
+      "full_name": "pydantic-ai/pydantic-ai",
+      "url": "https://github.com/pydantic-ai/pydantic-ai",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Type-safe agent framework built on Pydantic."
+    },
+    {
+      "id": "openai-openai-agents-python",
+      "name": "openai-agents-python",
+      "owner": "openai",
+      "full_name": "openai/openai-agents-python",
+      "url": "https://github.com/openai/openai-agents-python",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "OpenAI's lightweight multi-agent framework."
+    },
+    {
+      "id": "mastra-ai-mastra",
+      "name": "mastra",
+      "owner": "mastra-ai",
+      "full_name": "mastra-ai/mastra",
+      "url": "https://github.com/mastra-ai/mastra",
+      "category": "Agent Frameworks",
+      "language": "TypeScript",
+      "description": "TypeScript agent framework with workflows and RAG."
+    },
+    {
+      "id": "crewaiinc-crewai",
+      "name": "crewAI",
+      "owner": "crewAIInc",
+      "full_name": "crewAIInc/crewAI",
+      "url": "https://github.com/crewAIInc/crewAI",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Orchestrate role-playing autonomous agent crews."
+    },
+    {
+      "id": "microsoft-agent-framework",
+      "name": "agent-framework",
+      "owner": "microsoft",
+      "full_name": "microsoft/agent-framework",
+      "url": "https://github.com/microsoft/agent-framework",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Microsoft's framework for building AI agents."
+    },
+    {
+      "id": "langchain-ai-langchain",
+      "name": "langchain",
+      "owner": "langchain-ai",
+      "full_name": "langchain-ai/langchain",
+      "url": "https://github.com/langchain-ai/langchain",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "The original framework for building LLM applications."
+    },
+    {
+      "id": "run-llama-llama-index",
+      "name": "llama_index",
+      "owner": "run-llama",
+      "full_name": "run-llama/llama_index",
+      "url": "https://github.com/run-llama/llama_index",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Data framework for LLM apps and RAG."
+    },
+    {
+      "id": "vercel-ai",
+      "name": "ai",
+      "owner": "vercel",
+      "full_name": "vercel/ai",
+      "url": "https://github.com/vercel/ai",
+      "category": "Agent Frameworks",
+      "language": "TypeScript",
+      "description": "Vercel AI SDK for building AI-powered UIs."
+    },
+    {
+      "id": "deepset-ai-haystack",
+      "name": "haystack",
+      "owner": "deepset-ai",
+      "full_name": "deepset-ai/haystack",
+      "url": "https://github.com/deepset-ai/haystack",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "End-to-end framework for LLM/RAG pipelines."
+    },
+    {
+      "id": "huggingface-smolagents",
+      "name": "smolagents",
+      "owner": "huggingface",
+      "full_name": "huggingface/smolagents",
+      "url": "https://github.com/huggingface/smolagents",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Minimal library for code-writing agents."
+    },
+    {
+      "id": "stanfordnlp-dspy",
+      "name": "dspy",
+      "owner": "stanfordnlp",
+      "full_name": "stanfordnlp/dspy",
+      "url": "https://github.com/stanfordnlp/dspy",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Programming \u2014 not prompting \u2014 foundation models."
+    },
+    {
+      "id": "prefecthq-controlflow",
+      "name": "ControlFlow",
+      "owner": "PrefectHQ",
+      "full_name": "PrefectHQ/ControlFlow",
+      "url": "https://github.com/PrefectHQ/ControlFlow",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Agentic workflow framework on top of Prefect."
+    },
+    {
+      "id": "significant-gravitas-autogpt",
+      "name": "autogpt",
+      "owner": "significant-gravitas",
+      "full_name": "significant-gravitas/autogpt",
+      "url": "https://github.com/significant-gravitas/autogpt",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Autonomous GPT-4 agent platform."
+    },
+    {
+      "id": "geekan-metagpt",
+      "name": "metagpt",
+      "owner": "geekan",
+      "full_name": "geekan/metagpt",
+      "url": "https://github.com/geekan/metagpt",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Multi-agent framework that simulates a software company."
+    },
+    {
+      "id": "julep-ai-julep",
+      "name": "julep",
+      "owner": "julep-ai",
+      "full_name": "julep-ai/julep",
+      "url": "https://github.com/julep-ai/julep",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Stateful serverless platform for AI agents."
+    },
+    {
+      "id": "letta-ai-letta",
+      "name": "letta",
+      "owner": "letta-ai",
+      "full_name": "letta-ai/letta",
+      "url": "https://github.com/letta-ai/letta",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Agents with long-term memory (formerly MemGPT)."
+    },
+    {
+      "id": "camel-ai-camel",
+      "name": "camel",
+      "owner": "camel-ai",
+      "full_name": "camel-ai/camel",
+      "url": "https://github.com/camel-ai/camel",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Framework for studying multi-agent communication."
+    },
+    {
+      "id": "phidata-ai-phi",
+      "name": "phi",
+      "owner": "phidata-ai",
+      "full_name": "phidata-ai/phi",
+      "url": "https://github.com/phidata-ai/phi",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Build agents with memory, knowledge, and tools."
+    },
+    {
+      "id": "microsoft-magentic-one",
+      "name": "magentic-one",
+      "owner": "microsoft",
+      "full_name": "microsoft/magentic-one",
+      "url": "https://github.com/microsoft/magentic-one",
+      "category": "Agent Frameworks",
+      "language": "Python",
+      "description": "Generalist multi-agent system by Microsoft."
+    },
+    {
+      "id": "jxnl-instructor",
+      "name": "instructor",
+      "owner": "jxnl",
+      "full_name": "jxnl/instructor",
+      "url": "https://github.com/jxnl/instructor",
+      "category": "Structured Output",
+      "language": "Python",
+      "description": "Structured LLM outputs via Pydantic."
+    },
+    {
+      "id": "dottxt-ai-outlines",
+      "name": "outlines",
+      "owner": "dottxt-ai",
+      "full_name": "dottxt-ai/outlines",
+      "url": "https://github.com/dottxt-ai/outlines",
+      "category": "Structured Output",
+      "language": "Python",
+      "description": "Structured text generation with constrained decoding."
+    },
+    {
+      "id": "microsoft-typechat",
+      "name": "TypeChat",
+      "owner": "microsoft",
+      "full_name": "microsoft/TypeChat",
+      "url": "https://github.com/microsoft/TypeChat",
+      "category": "Structured Output",
+      "language": "TypeScript",
+      "description": "Build natural language interfaces using types."
+    },
+    {
+      "id": "guardrails-ai-guardrails-ai",
+      "name": "guardrails-ai",
+      "owner": "guardrails-ai",
+      "full_name": "guardrails-ai/guardrails-ai",
+      "url": "https://github.com/guardrails-ai/guardrails-ai",
+      "category": "Structured Output",
+      "language": "Python",
+      "description": "Add structure, type, and quality guarantees to LLM output."
+    },
+    {
+      "id": "modelcontextprotocol-python-sdk",
+      "name": "python-sdk",
+      "owner": "modelcontextprotocol",
+      "full_name": "modelcontextprotocol/python-sdk",
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "category": "Protocols & Interop",
+      "language": "Python",
+      "description": "Official Python SDK for the Model Context Protocol."
+    },
+    {
+      "id": "google-a2a-a2a",
+      "name": "A2A",
+      "owner": "google-a2a",
+      "full_name": "google-a2a/A2A",
+      "url": "https://github.com/google-a2a/A2A",
+      "category": "Protocols & Interop",
+      "language": "Python",
+      "description": "Agent2Agent protocol for cross-agent communication."
+    },
+    {
+      "id": "microsoft-promptflow",
+      "name": "promptflow",
+      "owner": "microsoft",
+      "full_name": "microsoft/promptflow",
+      "url": "https://github.com/microsoft/promptflow",
+      "category": "Protocols & Interop",
+      "language": "Python",
+      "description": "Build, evaluate, and deploy LLM flows."
+    },
+    {
+      "id": "composio-composio",
+      "name": "composio",
+      "owner": "composio",
+      "full_name": "composio/composio",
+      "url": "https://github.com/composio/composio",
+      "category": "Tools & Integrations",
+      "language": "Python",
+      "description": "Tool/integration layer connecting agents to 250+ apps."
+    },
+    {
+      "id": "arcadeai-arcade",
+      "name": "arcade",
+      "owner": "arcadeai",
+      "full_name": "arcadeai/arcade",
+      "url": "https://github.com/arcadeai/arcade",
+      "category": "Tools & Integrations",
+      "language": "Python",
+      "description": "Auth-aware tool-calling platform for agents."
+    },
+    {
+      "id": "browser-use-browser-use",
+      "name": "browser-use",
+      "owner": "browser-use",
+      "full_name": "browser-use/browser-use",
+      "url": "https://github.com/browser-use/browser-use",
+      "category": "Browser & Web Automation",
+      "language": "Python",
+      "description": "Let LLMs control a real browser."
+    },
+    {
+      "id": "cline-cline",
+      "name": "cline",
+      "owner": "cline",
+      "full_name": "cline/cline",
+      "url": "https://github.com/cline/cline",
+      "category": "Code Agents & Dev Tools",
+      "language": "TypeScript",
+      "description": "Autonomous coding agent in your IDE."
+    },
+    {
+      "id": "continue-dev-continue",
+      "name": "continue",
+      "owner": "continue-dev",
+      "full_name": "continue-dev/continue",
+      "url": "https://github.com/continue-dev/continue",
+      "category": "Code Agents & Dev Tools",
+      "language": "TypeScript",
+      "description": "Open-source AI code assistant."
+    },
+    {
+      "id": "aider-aider",
+      "name": "aider",
+      "owner": "aider",
+      "full_name": "aider/aider",
+      "url": "https://github.com/aider/aider",
+      "category": "Code Agents & Dev Tools",
+      "language": "Python",
+      "description": "AI pair programming in your terminal."
+    },
+    {
+      "id": "all-hands-ai-openhands",
+      "name": "OpenHands",
+      "owner": "All-Hands-AI",
+      "full_name": "All-Hands-AI/OpenHands",
+      "url": "https://github.com/All-Hands-AI/OpenHands",
+      "category": "Code Agents & Dev Tools",
+      "language": "Python",
+      "description": "Autonomous AI software engineer platform."
+    },
+    {
+      "id": "princeton-nlp-swe-agent",
+      "name": "SWE-agent",
+      "owner": "princeton-nlp",
+      "full_name": "princeton-nlp/SWE-agent",
+      "url": "https://github.com/princeton-nlp/SWE-agent",
+      "category": "Code Agents & Dev Tools",
+      "language": "Python",
+      "description": "Agents that fix GitHub issues autonomously."
+    },
+    {
+      "id": "sweepai-sweep",
+      "name": "sweep",
+      "owner": "sweepai",
+      "full_name": "sweepai/sweep",
+      "url": "https://github.com/sweepai/sweep",
+      "category": "Code Agents & Dev Tools",
+      "language": "Python",
+      "description": "AI junior developer that resolves issues into PRs."
+    },
+    {
+      "id": "openinterpreter-interpreter",
+      "name": "interpreter",
+      "owner": "openinterpreter",
+      "full_name": "openinterpreter/interpreter",
+      "url": "https://github.com/openinterpreter/interpreter",
+      "category": "Code Agents & Dev Tools",
+      "language": "Python",
+      "description": "Natural-language code execution locally."
+    },
+    {
+      "id": "chroma-core-chroma",
+      "name": "chroma",
+      "owner": "chroma-core",
+      "full_name": "chroma-core/chroma",
+      "url": "https://github.com/chroma-core/chroma",
+      "category": "Vector Databases",
+      "language": "Python",
+      "description": "Open-source embedding database."
+    },
+    {
+      "id": "qdrant-qdrant",
+      "name": "qdrant",
+      "owner": "qdrant",
+      "full_name": "qdrant/qdrant",
+      "url": "https://github.com/qdrant/qdrant",
+      "category": "Vector Databases",
+      "language": "Rust",
+      "description": "High-performance vector similarity search engine."
+    },
+    {
+      "id": "weaviate-weaviate",
+      "name": "weaviate",
+      "owner": "weaviate",
+      "full_name": "weaviate/weaviate",
+      "url": "https://github.com/weaviate/weaviate",
+      "category": "Vector Databases",
+      "language": "Go",
+      "description": "AI-native vector database."
+    },
+    {
+      "id": "pgvector-pgvector",
+      "name": "pgvector",
+      "owner": "pgvector",
+      "full_name": "pgvector/pgvector",
+      "url": "https://github.com/pgvector/pgvector",
+      "category": "Vector Databases",
+      "language": "C",
+      "description": "Open-source vector similarity search for Postgres."
+    },
+    {
+      "id": "milvus-io-milvus",
+      "name": "milvus",
+      "owner": "milvus-io",
+      "full_name": "milvus-io/milvus",
+      "url": "https://github.com/milvus-io/milvus",
+      "category": "Vector Databases",
+      "language": "Go",
+      "description": "Cloud-native vector database for scale."
+    },
+    {
+      "id": "lancedb-lancedb",
+      "name": "lancedb",
+      "owner": "lancedb",
+      "full_name": "lancedb/lancedb",
+      "url": "https://github.com/lancedb/lancedb",
+      "category": "Vector Databases",
+      "language": "Rust",
+      "description": "Serverless vector database for AI apps."
+    },
+    {
+      "id": "danswer-ai-danswer",
+      "name": "danswer",
+      "owner": "danswer-ai",
+      "full_name": "danswer-ai/danswer",
+      "url": "https://github.com/danswer-ai/danswer",
+      "category": "RAG & Search",
+      "language": "Python",
+      "description": "Enterprise question-answering over your docs."
+    },
+    {
+      "id": "infiniflow-ragflow",
+      "name": "ragflow",
+      "owner": "infiniflow",
+      "full_name": "infiniflow/ragflow",
+      "url": "https://github.com/infiniflow/ragflow",
+      "category": "RAG & Search",
+      "language": "Python",
+      "description": "RAG engine with deep document understanding."
+    },
+    {
+      "id": "ukplab-sentence-transformers",
+      "name": "sentence-transformers",
+      "owner": "UKPLab",
+      "full_name": "UKPLab/sentence-transformers",
+      "url": "https://github.com/UKPLab/sentence-transformers",
+      "category": "Embeddings & Rerankers",
+      "language": "Python",
+      "description": "State-of-the-art text and image embeddings."
+    },
+    {
+      "id": "huggingface-text-embeddings-inference",
+      "name": "text-embeddings-inference",
+      "owner": "huggingface",
+      "full_name": "huggingface/text-embeddings-inference",
+      "url": "https://github.com/huggingface/text-embeddings-inference",
+      "category": "Embeddings & Rerankers",
+      "language": "Rust",
+      "description": "Blazing-fast embedding model inference."
+    },
+    {
+      "id": "answerdotai-rerankers",
+      "name": "rerankers",
+      "owner": "answerdotai",
+      "full_name": "answerdotai/rerankers",
+      "url": "https://github.com/answerdotai/rerankers",
+      "category": "Embeddings & Rerankers",
+      "language": "Python",
+      "description": "Unified API for reranking models."
+    },
+    {
+      "id": "flagopen-flagembedding",
+      "name": "FlagEmbedding",
+      "owner": "FlagOpen",
+      "full_name": "FlagOpen/FlagEmbedding",
+      "url": "https://github.com/FlagOpen/FlagEmbedding",
+      "category": "Embeddings & Rerankers",
+      "language": "Python",
+      "description": "BGE family of embedding and rerank models."
+    },
+    {
+      "id": "mendableai-firecrawl",
+      "name": "firecrawl",
+      "owner": "mendableai",
+      "full_name": "mendableai/firecrawl",
+      "url": "https://github.com/mendableai/firecrawl",
+      "category": "Scraping & Ingestion",
+      "language": "TypeScript",
+      "description": "Turn websites into LLM-ready markdown."
+    },
+    {
+      "id": "scrapegraphai-scrapegraph-ai",
+      "name": "scrapegraph-ai",
+      "owner": "scrapegraphai",
+      "full_name": "scrapegraphai/scrapegraph-ai",
+      "url": "https://github.com/scrapegraphai/scrapegraph-ai",
+      "category": "Scraping & Ingestion",
+      "language": "Python",
+      "description": "LLM-powered web scraping pipelines."
+    },
+    {
+      "id": "unclecode-crawl4ai",
+      "name": "crawl4ai",
+      "owner": "unclecode",
+      "full_name": "unclecode/crawl4ai",
+      "url": "https://github.com/unclecode/crawl4ai",
+      "category": "Scraping & Ingestion",
+      "language": "Python",
+      "description": "Open-source LLM-friendly web crawler."
+    },
+    {
+      "id": "unstructured-io-unstructured",
+      "name": "unstructured",
+      "owner": "Unstructured-IO",
+      "full_name": "Unstructured-IO/unstructured",
+      "url": "https://github.com/Unstructured-IO/unstructured",
+      "category": "Scraping & Ingestion",
+      "language": "Python",
+      "description": "Preprocess unstructured docs for LLMs."
+    },
+    {
+      "id": "e2b-dev-e2b",
+      "name": "e2b",
+      "owner": "e2b-dev",
+      "full_name": "e2b-dev/e2b",
+      "url": "https://github.com/e2b-dev/e2b",
+      "category": "Sandboxes & Execution",
+      "language": "TypeScript",
+      "description": "Secure cloud sandboxes for AI agent code execution."
+    },
+    {
+      "id": "mem0ai-mem0",
+      "name": "mem0",
+      "owner": "mem0ai",
+      "full_name": "mem0ai/mem0",
+      "url": "https://github.com/mem0ai/mem0",
+      "category": "Memory",
+      "language": "Python",
+      "description": "Long-term memory layer for AI agents."
+    },
+    {
+      "id": "langfuse-langfuse",
+      "name": "langfuse",
+      "owner": "langfuse",
+      "full_name": "langfuse/langfuse",
+      "url": "https://github.com/langfuse/langfuse",
+      "category": "Observability & Tracing",
+      "language": "TypeScript",
+      "description": "Open-source LLM engineering and observability platform."
+    },
+    {
+      "id": "arize-ai-phoenix",
+      "name": "phoenix",
+      "owner": "arize-ai",
+      "full_name": "arize-ai/phoenix",
+      "url": "https://github.com/arize-ai/phoenix",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "AI observability and evaluation notebooks."
+    },
+    {
+      "id": "braintrustdata-braintrust",
+      "name": "braintrust",
+      "owner": "braintrustdata",
+      "full_name": "braintrustdata/braintrust",
+      "url": "https://github.com/braintrustdata/braintrust",
+      "category": "Observability & Tracing",
+      "language": "TypeScript",
+      "description": "Eval and observability stack for AI products."
+    },
+    {
+      "id": "traceloop-openllmetry",
+      "name": "openllmetry",
+      "owner": "traceloop",
+      "full_name": "traceloop/openllmetry",
+      "url": "https://github.com/traceloop/openllmetry",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "OpenTelemetry-based LLM observability."
+    },
+    {
+      "id": "open-telemetry-opentelemetry",
+      "name": "opentelemetry",
+      "owner": "open-telemetry",
+      "full_name": "open-telemetry/opentelemetry",
+      "url": "https://github.com/open-telemetry/opentelemetry",
+      "category": "Observability & Tracing",
+      "language": "Various",
+      "description": "Vendor-neutral observability framework."
+    },
+    {
+      "id": "pydantic-logfire",
+      "name": "logfire",
+      "owner": "pydantic",
+      "full_name": "pydantic/logfire",
+      "url": "https://github.com/pydantic/logfire",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "Observability built on OpenTelemetry by Pydantic."
+    },
+    {
+      "id": "langchain-ai-langsmith-sdk",
+      "name": "langsmith-sdk",
+      "owner": "langchain-ai",
+      "full_name": "langchain-ai/langsmith-sdk",
+      "url": "https://github.com/langchain-ai/langsmith-sdk",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "SDK for the LangSmith tracing/eval platform."
+    },
+    {
+      "id": "wandb-wandb",
+      "name": "wandb",
+      "owner": "wandb",
+      "full_name": "wandb/wandb",
+      "url": "https://github.com/wandb/wandb",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "Experiment tracking and model management."
+    },
+    {
+      "id": "mlflow-mlflow",
+      "name": "mlflow",
+      "owner": "mlflow",
+      "full_name": "mlflow/mlflow",
+      "url": "https://github.com/mlflow/mlflow",
+      "category": "Observability & Tracing",
+      "language": "Python",
+      "description": "Open-source ML lifecycle platform."
+    },
+    {
+      "id": "promptfoo-promptfoo",
+      "name": "promptfoo",
+      "owner": "promptfoo",
+      "full_name": "promptfoo/promptfoo",
+      "url": "https://github.com/promptfoo/promptfoo",
+      "category": "Evaluation & Testing",
+      "language": "TypeScript",
+      "description": "Test and evaluate LLM prompts and outputs."
+    },
+    {
+      "id": "confident-ai-deepeval",
+      "name": "deepeval",
+      "owner": "confident-ai",
+      "full_name": "confident-ai/deepeval",
+      "url": "https://github.com/confident-ai/deepeval",
+      "category": "Evaluation & Testing",
+      "language": "Python",
+      "description": "The LLM evaluation framework (unit tests for LLMs)."
+    },
+    {
+      "id": "explodinggradients-ragas",
+      "name": "ragas",
+      "owner": "explodinggradients",
+      "full_name": "explodinggradients/ragas",
+      "url": "https://github.com/explodinggradients/ragas",
+      "category": "Evaluation & Testing",
+      "language": "Python",
+      "description": "Evaluation toolkit for RAG pipelines."
+    },
+    {
+      "id": "ukgovernmentbeis-inspect-ai",
+      "name": "inspect-ai",
+      "owner": "UKGovernmentBEIS",
+      "full_name": "UKGovernmentBEIS/inspect-ai",
+      "url": "https://github.com/UKGovernmentBEIS/inspect-ai",
+      "category": "Evaluation & Testing",
+      "language": "Python",
+      "description": "Framework for large language model evaluations."
+    },
+    {
+      "id": "laiyer-ai-llm-guard",
+      "name": "llm-guard",
+      "owner": "laiyer-ai",
+      "full_name": "laiyer-ai/llm-guard",
+      "url": "https://github.com/laiyer-ai/llm-guard",
+      "category": "Guardrails & Safety",
+      "language": "Python",
+      "description": "Security toolkit for LLM interactions."
+    },
+    {
+      "id": "meta-llama-purplellama",
+      "name": "PurpleLlama",
+      "owner": "meta-llama",
+      "full_name": "meta-llama/PurpleLlama",
+      "url": "https://github.com/meta-llama/PurpleLlama",
+      "category": "Guardrails & Safety",
+      "language": "Python",
+      "description": "Meta's tools for LLM safety and security."
+    },
+    {
+      "id": "nvidia-nemo-guardrails",
+      "name": "nemo-guardrails",
+      "owner": "nvidia",
+      "full_name": "nvidia/nemo-guardrails",
+      "url": "https://github.com/nvidia/nemo-guardrails",
+      "category": "Guardrails & Safety",
+      "language": "Python",
+      "description": "Add programmable guardrails to LLM apps."
+    },
+    {
+      "id": "inngest-inngest",
+      "name": "inngest",
+      "owner": "inngest",
+      "full_name": "inngest/inngest",
+      "url": "https://github.com/inngest/inngest",
+      "category": "Workflow & Orchestration",
+      "language": "TypeScript",
+      "description": "Durable functions and event-driven workflows."
+    },
+    {
+      "id": "temporalio-temporal",
+      "name": "temporal",
+      "owner": "temporalio",
+      "full_name": "temporalio/temporal",
+      "url": "https://github.com/temporalio/temporal",
+      "category": "Workflow & Orchestration",
+      "language": "Go",
+      "description": "Durable execution platform for reliable workflows."
+    },
+    {
+      "id": "hatchet-dev-hatchet",
+      "name": "hatchet",
+      "owner": "hatchet-dev",
+      "full_name": "hatchet-dev/hatchet",
+      "url": "https://github.com/hatchet-dev/hatchet",
+      "category": "Workflow & Orchestration",
+      "language": "Go",
+      "description": "Distributed, fault-tolerant task queue."
+    },
+    {
+      "id": "windmill-labs-windmill",
+      "name": "windmill",
+      "owner": "windmill-labs",
+      "full_name": "windmill-labs/windmill",
+      "url": "https://github.com/windmill-labs/windmill",
+      "category": "Workflow & Orchestration",
+      "language": "Rust",
+      "description": "Developer platform for scripts, workflows, and UIs."
+    },
+    {
+      "id": "triggerdotdev-trigger-dev",
+      "name": "trigger.dev",
+      "owner": "triggerdotdev",
+      "full_name": "triggerdotdev/trigger.dev",
+      "url": "https://github.com/triggerdotdev/trigger.dev",
+      "category": "Workflow & Orchestration",
+      "language": "TypeScript",
+      "description": "Open-source background jobs and workflows."
+    },
+    {
+      "id": "prefecthq-prefect",
+      "name": "prefect",
+      "owner": "PrefectHQ",
+      "full_name": "PrefectHQ/prefect",
+      "url": "https://github.com/PrefectHQ/prefect",
+      "category": "Workflow & Orchestration",
+      "language": "Python",
+      "description": "Workflow orchestration for data pipelines."
+    },
+    {
+      "id": "dagster-io-dagster",
+      "name": "dagster",
+      "owner": "dagster-io",
+      "full_name": "dagster-io/dagster",
+      "url": "https://github.com/dagster-io/dagster",
+      "category": "Workflow & Orchestration",
+      "language": "Python",
+      "description": "Data orchestrator for ML and analytics."
+    },
+    {
+      "id": "ploomber-ploomber",
+      "name": "ploomber",
+      "owner": "ploomber",
+      "full_name": "ploomber/ploomber",
+      "url": "https://github.com/ploomber/ploomber",
+      "category": "Workflow & Orchestration",
+      "language": "Python",
+      "description": "Build data pipelines fast."
+    },
+    {
+      "id": "zenml-io-zenml",
+      "name": "zenml",
+      "owner": "zenml-io",
+      "full_name": "zenml-io/zenml",
+      "url": "https://github.com/zenml-io/zenml",
+      "category": "Workflow & Orchestration",
+      "language": "Python",
+      "description": "MLOps framework for reproducible pipelines."
+    },
+    {
+      "id": "taskforcesh-bullmq",
+      "name": "bullmq",
+      "owner": "taskforcesh",
+      "full_name": "taskforcesh/bullmq",
+      "url": "https://github.com/taskforcesh/bullmq",
+      "category": "Task Queues & Jobs",
+      "language": "TypeScript",
+      "description": "Robust Redis-based queue for Node.js."
+    },
+    {
+      "id": "celery-celery",
+      "name": "celery",
+      "owner": "celery",
+      "full_name": "celery/celery",
+      "url": "https://github.com/celery/celery",
+      "category": "Task Queues & Jobs",
+      "language": "Python",
+      "description": "Distributed task queue for Python."
+    },
+    {
+      "id": "samuelcolvin-arq",
+      "name": "arq",
+      "owner": "samuelcolvin",
+      "full_name": "samuelcolvin/arq",
+      "url": "https://github.com/samuelcolvin/arq",
+      "category": "Task Queues & Jobs",
+      "language": "Python",
+      "description": "Fast asyncio Redis job queue."
+    },
+    {
+      "id": "nats-io-nats-server",
+      "name": "nats-server",
+      "owner": "nats-io",
+      "full_name": "nats-io/nats-server",
+      "url": "https://github.com/nats-io/nats-server",
+      "category": "Messaging & Infra",
+      "language": "Go",
+      "description": "High-performance cloud-native messaging system."
+    },
+    {
+      "id": "redis-redis",
+      "name": "redis",
+      "owner": "redis",
+      "full_name": "redis/redis",
+      "url": "https://github.com/redis/redis",
+      "category": "Messaging & Infra",
+      "language": "C",
+      "description": "In-memory data store, cache, and message broker."
+    },
+    {
+      "id": "apache-kafka",
+      "name": "kafka",
+      "owner": "apache",
+      "full_name": "apache/kafka",
+      "url": "https://github.com/apache/kafka",
+      "category": "Messaging & Infra",
+      "language": "Java",
+      "description": "Distributed event streaming platform."
+    },
+    {
+      "id": "modal-labs-modal",
+      "name": "modal",
+      "owner": "modal-labs",
+      "full_name": "modal-labs/modal",
+      "url": "https://github.com/modal-labs/modal",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Serverless cloud for running AI workloads."
+    },
+    {
+      "id": "bentoml-bentoml",
+      "name": "BentoML",
+      "owner": "bentoml",
+      "full_name": "bentoml/BentoML",
+      "url": "https://github.com/bentoml/BentoML",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Build and ship AI model serving APIs."
+    },
+    {
+      "id": "berriai-litellm",
+      "name": "litellm",
+      "owner": "BerriAI",
+      "full_name": "BerriAI/litellm",
+      "url": "https://github.com/BerriAI/litellm",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Unified API for 100+ LLM providers."
+    },
+    {
+      "id": "ollama-ollama",
+      "name": "ollama",
+      "owner": "ollama",
+      "full_name": "ollama/ollama",
+      "url": "https://github.com/ollama/ollama",
+      "category": "Model Serving & Inference",
+      "language": "Go",
+      "description": "Run large language models locally."
+    },
+    {
+      "id": "vllm-project-vllm",
+      "name": "vllm",
+      "owner": "vllm-project",
+      "full_name": "vllm-project/vllm",
+      "url": "https://github.com/vllm-project/vllm",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "High-throughput, memory-efficient LLM inference."
+    },
+    {
+      "id": "open-webui-open-webui",
+      "name": "open-webui",
+      "owner": "open-webui",
+      "full_name": "open-webui/open-webui",
+      "url": "https://github.com/open-webui/open-webui",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Self-hosted web UI for local LLMs."
+    },
+    {
+      "id": "sgl-project-sglang",
+      "name": "sglang",
+      "owner": "sgl-project",
+      "full_name": "sgl-project/sglang",
+      "url": "https://github.com/sgl-project/sglang",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Fast serving framework for LLMs and VLMs."
+    },
+    {
+      "id": "skypilot-org-skypilot",
+      "name": "skypilot",
+      "owner": "skypilot-org",
+      "full_name": "skypilot-org/skypilot",
+      "url": "https://github.com/skypilot-org/skypilot",
+      "category": "Model Serving & Inference",
+      "language": "Python",
+      "description": "Run AI workloads on any cloud."
+    },
+    {
+      "id": "nvidia-triton-inference-server",
+      "name": "triton-inference-server",
+      "owner": "NVIDIA",
+      "full_name": "NVIDIA/triton-inference-server",
+      "url": "https://github.com/NVIDIA/triton-inference-server",
+      "category": "Model Serving & Inference",
+      "language": "C++",
+      "description": "NVIDIA's high-performance inference server."
+    },
+    {
+      "id": "chainlit-chainlit",
+      "name": "chainlit",
+      "owner": "Chainlit",
+      "full_name": "Chainlit/chainlit",
+      "url": "https://github.com/Chainlit/chainlit",
+      "category": "UI & Frontend",
+      "language": "Python",
+      "description": "Build conversational AI UIs in minutes."
+    },
+    {
+      "id": "langflow-ai-langflow",
+      "name": "langflow",
+      "owner": "langflow-ai",
+      "full_name": "langflow-ai/langflow",
+      "url": "https://github.com/langflow-ai/langflow",
+      "category": "UI & Frontend",
+      "language": "Python",
+      "description": "Visual low-code builder for LLM apps."
+    },
+    {
+      "id": "flowiseai-flowise",
+      "name": "Flowise",
+      "owner": "FlowiseAI",
+      "full_name": "FlowiseAI/Flowise",
+      "url": "https://github.com/FlowiseAI/Flowise",
+      "category": "UI & Frontend",
+      "language": "TypeScript",
+      "description": "Drag-and-drop UI to build LLM flows."
+    },
+    {
+      "id": "streamlit-streamlit",
+      "name": "streamlit",
+      "owner": "streamlit",
+      "full_name": "streamlit/streamlit",
+      "url": "https://github.com/streamlit/streamlit",
+      "category": "UI & Frontend",
+      "language": "Python",
+      "description": "Turn data scripts into shareable web apps."
+    },
+    {
+      "id": "gradio-app-gradio",
+      "name": "gradio",
+      "owner": "gradio-app",
+      "full_name": "gradio-app/gradio",
+      "url": "https://github.com/gradio-app/gradio",
+      "category": "UI & Frontend",
+      "language": "Python",
+      "description": "Build ML web demos with a few lines of Python."
+    }
+  ]
+}
