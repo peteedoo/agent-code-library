@@ -22,3 +22,9 @@ Thumbs.db
 
 # Sandbox executor audit logs (local-only)
 .acl/audit/*.json
+
+# Edge worker
+edge/node_modules/
+edge/wrangler.deploy.json
+edge/.kv_id
+edge/.wrangler/

@@ -1,0 +1,63 @@
+name: Deploy ACL edge API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "edge/**"
+      - ".github/workflows/deploy-edge.yml"
+      - "www/catalog.json"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: edge
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: edge/package.json
+
+      - name: Install
+        run: npm install
+
+      - name: Require Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::Missing CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID repo secrets. Add them, then re-run this workflow."
+            exit 1
+          fi
+
+      - name: Ensure KV + deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GITHUB_TOKEN_FOR_ISSUES: ${{ secrets.ACL_GITHUB_TOKEN }}
+        run: |
+          chmod +x scripts/ensure-kv.sh
+          LIST_JSON="$(npx wrangler kv namespace list --format=json 2>/dev/null || echo '[]')" \
+            NAME=acl-stats \
+            bash scripts/ensure-kv.sh
+          # Optional: persist snippet submissions as GitHub issues
+          if [ -n "${GITHUB_TOKEN_FOR_ISSUES:-}" ]; then
+            npx wrangler secret put GITHUB_TOKEN --config wrangler.deploy.json <<< "$GITHUB_TOKEN_FOR_ISSUES" || true
+          fi
+          npx wrangler deploy --config wrangler.deploy.json
+
+      - name: Smoke healthz on workers.dev
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # workers.dev URL pattern: https://acl-api.<subdomain>.workers.dev
+          echo "After deploy, attach custom domain aicode.iamfaulty.com in the Cloudflare dashboard:"
+          echo "Workers & Pages → acl-api → Settings → Domains & Routes → Add aicode.iamfaulty.com"

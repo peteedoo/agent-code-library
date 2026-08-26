@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "acl-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-01",
+  "workers_dev": true,
+  "preview_urls": true,
+  "vars": {
+    "CATALOG_URL": "https://raw.githubusercontent.com/peteedoo/agent-code-library/main/www/catalog.json",
+    "PUBLIC_URL": "https://aicode.iamfaulty.com",
+    "REPO": "peteedoo/agent-code-library"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "ACL_KV",
+      "id": "00000000000000000000000000000000",
+      "preview_id": "00000000000000000000000000000000"
+    }
+  ],
+  "routes": [],
+  "observability": {
+    "enabled": true
+  }
+}
