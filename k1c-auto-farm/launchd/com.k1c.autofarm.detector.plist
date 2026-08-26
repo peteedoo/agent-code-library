@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Mac Mini keep-alive for K1C Auto-Farm Detector.
+
+  Install:
+    1. Edit WorkingDirectory + ProgramArguments paths below to match your install.
+    2. Copy to ~/Library/LaunchAgents/com.k1c.autofarm.detector.plist
+    3. launchctl load ~/Library/LaunchAgents/com.k1c.autofarm.detector.plist
+
+  Unload:
+    launchctl unload ~/Library/LaunchAgents/com.k1c.autofarm.detector.plist
+-->
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.k1c.autofarm.detector</string>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/YOURUSER/k1c-auto-farm</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/YOURUSER/k1c-auto-farm/.venv/bin/python</string>
+      <string>/Users/YOURUSER/k1c-auto-farm/ai_detector.py</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>K1C_IP</key>
+      <string>192.168.1.100</string>
+      <key>K1C_HOST</key>
+      <string>0.0.0.0</string>
+      <key>K1C_PORT</key>
+      <string>8745</string>
+      <!-- Optional: <key>K1C_API_TOKEN</key><string>change-me</string> -->
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/YOURUSER/.k1c_auto_farm/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/YOURUSER/.k1c_auto_farm/launchd.err.log</string>
+  </dict>
+</plist>
