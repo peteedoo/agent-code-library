@@ -141,12 +141,18 @@ async def webhook_rebuild(request: Request, x_hub_signature_256: str = Header(No
 
 # ─── Snippet Search ───────────────────────────────────────────
 
+# Composite community rank: votes + usage + agent_rating (see CLOUD_SECURITY.md)
+_SCORE_SQL = "(COALESCE(s.agent_rating, 0) * 20 + COALESCE(s.votes, 0) + COALESCE(s.usage_count, 0) * 0.25)"
+_SCORE_SQL_PLAIN = "(COALESCE(agent_rating, 0) * 20 + COALESCE(votes, 0) + COALESCE(usage_count, 0) * 0.25)"
+
+
 @app.get("/api/v1/search")
 async def api_search(
     q: str = Query(..., description="Search query"),
     lang: Optional[str] = Query(None, description="Filter by language"),
+    tag: Optional[str] = Query(None, description="Filter by tag substring, e.g. domain:cloud-security"),
     limit: int = Query(10, ge=1, le=50),
-    sort: str = Query("rank", regex="^(rank|rating|votes|usage)$"),
+    sort: str = Query("rank", regex="^(rank|score|rating|votes|usage)$"),
     include_board: bool = Query(False, description="Also search board posts"),
 ):
     conn = _conn()
@@ -156,19 +162,28 @@ async def api_search(
     results = {"snippets": [], "board_posts": []}
 
     # Snippets
-    sql = """
+    sql = f"""
         SELECT s.id, s.title, s.lang, s.tags, s.description, s.source_path,
-               s.votes, s.usage_count, s.agent_rating, s.author, s.created, s.updated
+               s.votes, s.usage_count, s.agent_rating, s.author, s.created, s.updated,
+               {_SCORE_SQL} AS score
         FROM snippets_fts fts
         JOIN snippets s ON s.rowid = fts.rowid
         WHERE snippets_fts MATCH ?
     """
-    params = [q]
+    params: list = [q]
     if lang:
         sql += " AND s.lang = ?"
         params.append(lang)
-    sort_map = {"rating": "s.agent_rating DESC, rank", "votes": "s.votes DESC, rank",
-                 "usage": "s.usage_count DESC, rank", "rank": "rank"}
+    if tag:
+        sql += " AND (',' || s.tags || ',') LIKE ?"
+        params.append(f"%,{tag},%")
+    sort_map = {
+        "rating": "s.agent_rating DESC, rank",
+        "votes": "s.votes DESC, rank",
+        "usage": "s.usage_count DESC, rank",
+        "score": f"score DESC, rank",
+        "rank": "rank",
+    }
     sql += f" ORDER BY {sort_map.get(sort, 'rank')} LIMIT ?"
     params.append(limit)
 
@@ -179,6 +194,7 @@ async def api_search(
             "description": r[4], "source_path": r[5], "votes": r[6] or 0,
             "usage_count": r[7] or 0, "agent_rating": r[8] or 0.0,
             "author": r[9], "created": r[10], "updated": r[11],
+            "score": round(float(r[12] or 0), 3),
         }
         for r in rows
     ]
@@ -242,22 +258,44 @@ async def api_snippet_detail(snippet_id: str):
 @app.get("/api/v1/top")
 async def api_top(
     limit: int = Query(10, ge=1, le=100),
-    sort: str = Query("rating", regex="^(rating|votes|usage)$"),
+    sort: str = Query("score", regex="^(score|rating|votes|usage)$"),
+    tag: Optional[str] = Query(None, description="Filter by tag, e.g. domain:cloud-security"),
 ):
+    """Ranked voting leaderboard. Default sort=score blends votes, usage, and agent_rating."""
     conn = _conn()
     if not conn:
         raise HTTPException(status_code=503, detail="Index not built yet")
-    order_map = {"rating": "agent_rating DESC", "votes": "votes DESC", "usage": "usage_count DESC"}
-    rows = conn.execute(
-        f"SELECT id, title, lang, description, votes, agent_rating, usage_count, author FROM snippets ORDER BY {order_map.get(sort, 'agent_rating DESC')} LIMIT ?",
-        (limit,),
-    ).fetchall()
+    order_map = {
+        "score": f"{_SCORE_SQL_PLAIN} DESC",
+        "rating": "agent_rating DESC",
+        "votes": "votes DESC",
+        "usage": "usage_count DESC",
+    }
+    sql = f"""
+        SELECT id, title, lang, description, votes, agent_rating, usage_count, author,
+               tags, {_SCORE_SQL_PLAIN} AS score
+        FROM snippets
+    """
+    params: list = []
+    if tag:
+        sql += " WHERE (',' || tags || ',') LIKE ?"
+        params.append(f"%,{tag},%")
+    sql += f" ORDER BY {order_map.get(sort, order_map['score'])} LIMIT ?"
+    params.append(limit)
+    rows = conn.execute(sql, params).fetchall()
     return {
         "sort_by": sort,
+        "tag": tag,
+        "score_formula": "(agent_rating * 20) + votes + (usage_count * 0.25)",
         "total": len(rows),
         "results": [
-            {"id": r[0], "title": r[1], "language": r[2], "description": r[3],
-             "votes": r[4] or 0, "agent_rating": r[5] or 0.0, "usage_count": r[6] or 0, "author": r[7]}
+            {
+                "id": r[0], "title": r[1], "language": r[2], "description": r[3],
+                "votes": r[4] or 0, "agent_rating": r[5] or 0.0, "usage_count": r[6] or 0,
+                "author": r[7],
+                "tags": r[8].split(",") if r[8] else [],
+                "score": round(float(r[9] or 0), 3),
+            }
             for r in rows
         ],
     }
