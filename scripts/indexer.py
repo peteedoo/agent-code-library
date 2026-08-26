@@ -283,7 +283,9 @@ def export_catalog(conn: sqlite3.Connection) -> None:
 
     catalog = {
         "service": "agent-code-library",
-        "version": 3,
+        "version": 4,
+        "score_formula": "(agent_rating * 20) + votes + (usage_count * 0.25)",
+        "verticals": ["general", "cloud-security"],
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "base_url": "https://aicode.iamfaulty.com",
         "github_raw": "https://raw.githubusercontent.com/peteedoo/agent-code-library/main",

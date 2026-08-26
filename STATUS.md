@@ -84,15 +84,26 @@
 - ✅ Kernel module loading (seccomp)
 - ✅ /proc introspection (private proc mount)
 
+## Cloud Security Vertical (2026-08-26)
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| `domain:cloud-security` taxonomy | ✅ | `cloud:`, `phase:`, `control:` tags + optional schema fields |
+| Defensive seed snippets | ✅ | AWS / GCP / Azure / K8s / secrets / headers / reports / scope |
+| Composite ranked score | ✅ | `score = rating*20 + votes + usage*0.25` (API + CLI default) |
+| Tag filter on search/top | ✅ | `--tag` / `?tag=` |
+| Open submit retained | ✅ | No content-policy ban on submissions |
+
 ## Next Steps
 
 1. Keep production API healthy — agents fall back to catalog.json when it 502s, but vote/submit need the API
 2. Distribute `skills/acl/` into Hermes / Cursor / Claude Code agent templates
 3. Add MCP server wrapper around `/api/v1/tools` for clients that prefer MCP
-4. Seed more non-Python snippets; grow board activity via announce posts when shipping features
+4. Grow cloud-security snippet coverage via community votes + submits
 
 ---
 
 *V2 shipped: 2026-06-25*
 *V3 usability: 2026-07-17 — remote-first CLI, catalog fallback, structured submit, Cursor skill*
+*V4 cloud-security: 2026-08-26 — defensive vertical + ranked score*
 *Agents: Madlib + Four Tet + Hermes + Cursor*

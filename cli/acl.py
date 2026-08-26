@@ -182,19 +182,28 @@ def _print_snippet_rows(rows: List[dict], header: str = "Snippets"):
         title = row.get("title", "")
         rating = row.get("agent_rating") or 0
         votes = row.get("votes") or 0
+        score = row.get("score")
         desc = row.get("description") or ""
         stars = "★" * int(round(rating)) if rating else ""
-        print(f"  {sid[:8]} | [{lang}] {title}  {stars} ({votes} votes)")
+        score_bit = f"  score={score}" if score is not None else ""
+        print(f"  {sid[:8]} | [{lang}] {title}  {stars} ({votes} votes){score_bit}")
         if desc:
             print(f"  {desc}")
         print()
+
+
+def _composite_score(s: dict) -> float:
+    return (float(s.get("agent_rating") or 0) * 20.0) + float(s.get("votes") or 0) + (
+        float(s.get("usage_count") or 0) * 0.25
+    )
 
 
 # ═══════════════════════════════════════════════════════════════
 # SNIPPET COMMANDS
 # ═══════════════════════════════════════════════════════════════
 
-def search(query: str, lang: str = None, limit: int = 10, sort: str = "rank", include_board: bool = False):
+def search(query: str, lang: str = None, limit: int = 10, sort: str = "rank",
+           include_board: bool = False, tag: str = None):
     backend = _backend()
     print(f"  [backend: {backend}]", file=sys.stderr)
 
@@ -202,6 +211,8 @@ def search(query: str, lang: str = None, limit: int = 10, sort: str = "rank", in
         params = {"q": query, "limit": str(limit), "sort": sort}
         if lang:
             params["lang"] = lang
+        if tag:
+            params["tag"] = tag
         if include_board:
             params["include_board"] = "true"
         url = f"{DEFAULT_API}/api/v1/search?" + urllib.parse.urlencode(params)
@@ -209,7 +220,7 @@ def search(query: str, lang: str = None, limit: int = 10, sort: str = "rank", in
             data = _http_json("GET", url)
         except Exception as exc:
             print(f"  API search failed ({exc}); falling back to catalog…", file=sys.stderr)
-            return search_catalog(query, lang, limit)
+            return search_catalog(query, lang, limit, tag=tag)
         results = data.get("results") or data.get("snippets") or []
         # Some APIs nest under results.snippets
         if isinstance(results, dict):
@@ -228,38 +239,50 @@ def search(query: str, lang: str = None, limit: int = 10, sort: str = "rank", in
         return
 
     if backend == "local":
-        return search_local(query, lang, limit, sort, include_board)
+        return search_local(query, lang, limit, sort, include_board, tag=tag)
 
-    return search_catalog(query, lang, limit)
+    return search_catalog(query, lang, limit, tag=tag)
 
 
-def search_catalog(query: str, lang: str = None, limit: int = 10):
+def search_catalog(query: str, lang: str = None, limit: int = 10, tag: str = None):
     catalog = _load_catalog()
     snippets = catalog.get("snippets") or []
     matched = [s for s in snippets if _match_snippet(s, query, lang)]
-    # Prefer higher rating / votes
-    matched.sort(key=lambda s: (s.get("agent_rating") or 0, s.get("votes") or 0), reverse=True)
+    if tag:
+        matched = [s for s in matched if tag in (s.get("tags") or [])]
+    # Prefer composite community score
+    matched.sort(key=_composite_score, reverse=True)
+    for s in matched:
+        s["score"] = round(_composite_score(s), 3)
     _print_snippet_rows(matched[:limit], header="Snippets (catalog)")
 
 
-def search_local(query: str, lang: str = None, limit: int = 10, sort: str = "rank", include_board: bool = False):
+def search_local(query: str, lang: str = None, limit: int = 10, sort: str = "rank",
+                 include_board: bool = False, tag: str = None):
     conn = _conn()
-    sql = """
-        SELECT s.id, s.title, s.lang, s.description, s.source_path, s.votes, s.agent_rating, rank
+    score_sql = "(COALESCE(s.agent_rating, 0) * 20 + COALESCE(s.votes, 0) + COALESCE(s.usage_count, 0) * 0.25)"
+    sql = f"""
+        SELECT s.id, s.title, s.lang, s.description, s.source_path, s.votes, s.agent_rating,
+               {score_sql} AS score, rank
         FROM snippets_fts fts
         JOIN snippets s ON s.rowid = fts.rowid
         WHERE snippets_fts MATCH ?
     """
     params: list = [query]
     if lang:
-        sql += " AND lang = ?"
+        sql += " AND s.lang = ?"
         params.append(lang)
+    if tag:
+        sql += " AND (',' || s.tags || ',') LIKE ?"
+        params.append(f"%,{tag},%")
     if sort == "rating":
         sql += " ORDER BY s.agent_rating DESC, rank"
     elif sort == "votes":
         sql += " ORDER BY s.votes DESC, rank"
     elif sort == "usage":
         sql += " ORDER BY s.usage_count DESC, rank"
+    elif sort == "score":
+        sql += " ORDER BY score DESC, rank"
     else:
         sql += " ORDER BY rank"
     sql += " LIMIT ?"
@@ -267,32 +290,38 @@ def search_local(query: str, lang: str = None, limit: int = 10, sort: str = "ran
 
     rows = conn.execute(sql, params).fetchall()
     if rows:
-        print("  ── Snippets ──")
+        print("  Snippets:")
+        print()
         for row in rows:
             stars = "★" * int(round(row[6] or 0)) if row[6] else ""
-            print(f"  {row[0][:8]} | [{row[2]}] {row[1]}  {stars} ({row[5]} votes)")
-            print(f"  {row[3]}")
+            print(f"  {row[0][:8]} | [{row[2]}] {row[1]}  {stars} ({row[5]} votes)  score={round(row[7] or 0, 3)}")
+            if row[3]:
+                print(f"  {row[3]}")
             print()
+    else:
+        print("  (no results)")
 
-    brows = []
     if include_board:
-        bsql = """
-            SELECT bp.id, bp.title, bp.author, bp.board, bp.status, rank
+        brows = conn.execute(
+            """
+            SELECT bp.id, bp.title, bp.author, bp.board, bp.status
             FROM board_fts bf
             JOIN board_posts bp ON bp.rowid = bf.rowid
             WHERE board_fts MATCH ?
             ORDER BY rank LIMIT ?
-        """
-        brows = conn.execute(bsql, [query, limit]).fetchall()
+            """,
+            (query, limit),
+        ).fetchall()
         if brows:
             print("  ── Board Posts ──")
-            for row in brows:
-                status_tag = f" [{row[4]}]" if row[4] != "active" else ""
-                print(f"  [{row[3]}] {row[1]}  by {row[2]}{status_tag}")
-                print(f"  {row[0][:8]}")
+            for r in brows:
+                status_tag = f" [{r[4]}]" if r[4] != "active" else ""
+                print(f"  [{r[3]}] {r[1]}  by {r[2]}{status_tag}")
+                print(f"  {r[0][:8]}")
                 print()
-
-    if not rows and not brows:
+        if not rows and not brows:
+            print("No results.")
+    elif not rows:
         print("No results.")
 
 
@@ -381,12 +410,16 @@ def use_snippet(snippet_id: str):
         print("  (usage not recorded — API unavailable)", file=sys.stderr)
 
 
-def top(limit: int = 10, sort: str = "rating"):
+def top(limit: int = 10, sort: str = "score", tag: str = None):
     backend = _backend()
     if backend == "remote":
         try:
-            data = _http_json("GET", f"{DEFAULT_API}/api/v1/top?limit={limit}&sort={sort}")
-            _print_snippet_rows(data.get("results") or [], header=f"Top {limit} (by {sort})")
+            params = {"limit": str(limit), "sort": sort}
+            if tag:
+                params["tag"] = tag
+            data = _http_json("GET", f"{DEFAULT_API}/api/v1/top?" + urllib.parse.urlencode(params))
+            label = f"Top {limit} (by {sort}" + (f", tag={tag}" if tag else "") + ")"
+            _print_snippet_rows(data.get("results") or [], header=label)
             print("  Tip: use 'acl.py show <id>' or 'acl.py use <id>' for full code.")
             return
         except Exception as exc:
@@ -394,40 +427,63 @@ def top(limit: int = 10, sort: str = "rating"):
 
     if backend == "local" or (INDEX_DB and INDEX_DB.exists()):
         try:
-            return top_local(limit, sort)
+            return top_local(limit, sort, tag=tag)
         except SystemExit:
             pass
 
     catalog = _load_catalog()
     snippets = list(catalog.get("snippets") or [])
-    key = {"votes": "votes", "usage": "usage_count"}.get(sort, "agent_rating")
-    snippets.sort(key=lambda s: s.get(key) or 0, reverse=True)
-    _print_snippet_rows(snippets[:limit], header=f"Top {limit} (by {sort}, catalog)")
+    if tag:
+        snippets = [s for s in snippets if tag in (s.get("tags") or [])]
+    if sort == "votes":
+        snippets.sort(key=lambda s: s.get("votes") or 0, reverse=True)
+    elif sort == "usage":
+        snippets.sort(key=lambda s: s.get("usage_count") or 0, reverse=True)
+    elif sort == "rating":
+        snippets.sort(key=lambda s: s.get("agent_rating") or 0, reverse=True)
+    else:
+        snippets.sort(key=_composite_score, reverse=True)
+    for s in snippets:
+        s["score"] = round(_composite_score(s), 3)
+    label = f"Top {limit} (by {sort}, catalog" + (f", tag={tag}" if tag else "") + ")"
+    _print_snippet_rows(snippets[:limit], header=label)
 
 
-def top_local(limit: int = 10, sort: str = "rating"):
+def top_local(limit: int = 10, sort: str = "score", tag: str = None):
     conn = _conn()
+    score_sql = "(COALESCE(agent_rating, 0) * 20 + COALESCE(votes, 0) + COALESCE(usage_count, 0) * 0.25)"
     if sort == "votes":
         order = "votes DESC"
     elif sort == "usage":
         order = "usage_count DESC"
-    else:
+    elif sort == "rating":
         order = "agent_rating DESC"
+    else:
+        order = f"{score_sql} DESC"
 
-    rows = conn.execute(
-        f"SELECT id, title, lang, description, votes, agent_rating FROM snippets ORDER BY {order} LIMIT ?",
-        (limit,),
-    ).fetchall()
+    sql = f"""
+        SELECT id, title, lang, description, votes, agent_rating, usage_count,
+               {score_sql} AS score
+        FROM snippets
+    """
+    params: list = []
+    if tag:
+        sql += " WHERE (',' || tags || ',') LIKE ?"
+        params.append(f"%,{tag},%")
+    sql += f" ORDER BY {order} LIMIT ?"
+    params.append(limit)
+
+    rows = conn.execute(sql, params).fetchall()
     if not rows:
         print("No snippets in library.")
         return
 
-    print(f"  Top {limit} Snippets (by {sort}):")
+    print(f"  Top {limit} Snippets (by {sort}" + (f", tag={tag}" if tag else "") + "):")
     print()
     for idx, row in enumerate(rows, 1):
         stars = "★" * int(round(row[5] or 0)) if row[5] else ""
-        print(f"  {idx:2}. [{row[2]}] {row[1]}  {stars} ({row[4]} votes)")
-        print(f"      {row[3]}")
+        print(f"  {idx:2}. [{row[2]}] {row[1]}  {stars} ({row[4]} votes)  score={round(row[7] or 0, 3)}")
+        print(f"      {row[0][:8]}  {row[3]}")
     print()
     print("  Tip: use 'acl.py show <id>' or 'acl.py use <id>' for full details.")
 
@@ -1068,7 +1124,8 @@ def main():
     p_search.add_argument("query")
     p_search.add_argument("--lang", default=None)
     p_search.add_argument("--limit", type=int, default=10)
-    p_search.add_argument("--sort", choices=["rank", "rating", "votes", "usage"], default="rank")
+    p_search.add_argument("--sort", choices=["rank", "score", "rating", "votes", "usage"], default="rank")
+    p_search.add_argument("--tag", default=None, help="Filter by tag, e.g. domain:cloud-security")
     p_search.add_argument("--include-board", action="store_true")
 
     p_show = sub.add_parser("show", help="Show snippet by UUID/prefix")
@@ -1077,9 +1134,10 @@ def main():
     p_use = sub.add_parser("use", help="Show snippet code and record usage (agent happy path)")
     p_use.add_argument("id")
 
-    p_top = sub.add_parser("top", help="Top-rated snippets")
+    p_top = sub.add_parser("top", help="Ranked voting leaderboard (score = rating*20 + votes + usage*0.25)")
     p_top.add_argument("--limit", type=int, default=10)
-    p_top.add_argument("--sort", choices=["rating", "votes", "usage"], default="rating")
+    p_top.add_argument("--sort", choices=["score", "rating", "votes", "usage"], default="score")
+    p_top.add_argument("--tag", default=None, help="Filter by tag, e.g. domain:cloud-security")
 
     p_recommend = sub.add_parser("recommend", help="Get snippet recommendations")
     p_recommend.add_argument("id")
@@ -1121,13 +1179,13 @@ def main():
     args = parser.parse_args()
 
     if args.cmd == "search":
-        search(args.query, args.lang, args.limit, args.sort, args.include_board)
+        search(args.query, args.lang, args.limit, args.sort, args.include_board, tag=args.tag)
     elif args.cmd == "show":
         show(args.id)
     elif args.cmd == "use":
         use_snippet(args.id)
     elif args.cmd == "top":
-        top(args.limit, args.sort)
+        top(args.limit, args.sort, tag=getattr(args, "tag", None))
     elif args.cmd == "recommend":
         recommend(args.id, args.limit)
     elif args.cmd == "list":

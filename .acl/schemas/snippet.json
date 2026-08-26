@@ -103,6 +103,21 @@
       "type": "array",
       "items": { "type": "string", "format": "uuid" },
       "description": "Related snippet UUIDs — agents who used this also used these"
+    },
+    "cloud": {
+      "type": "string",
+      "enum": ["aws", "gcp", "azure", "k8s", "multi", "generic"],
+      "description": "Optional cloud / platform focus for security assessment snippets"
+    },
+    "phase": {
+      "type": "string",
+      "enum": ["scope", "inventory", "config-audit", "hardening", "reporting"],
+      "description": "Optional engagement phase for cloud-security snippets"
+    },
+    "severity_default": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high", "critical"],
+      "description": "Suggested default finding severity when this check fails"
     }
   }
 }
