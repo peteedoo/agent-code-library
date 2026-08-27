@@ -96,14 +96,15 @@
 
 ## Next Steps
 
-1. Keep production API healthy — agents fall back to catalog.json when it 502s, but vote/submit need the API
-2. Distribute `skills/acl/` into Hermes / Cursor / Claude Code agent templates
-3. Add MCP server wrapper around `/api/v1/tools` for clients that prefer MCP
+1. **Fix production 502** — add `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`, deploy `edge/` Worker, attach custom domain `aicode.iamfaulty.com` (see `DEPLOY.md`)
+2. Alternate: run root `Dockerfile` on Railway/Fly and point Cloudflare DNS at it
+3. Distribute `skills/acl/` into Hermes / Cursor / Claude Code agent templates
 4. Grow cloud-security snippet coverage via community votes + submits
 
 ---
 
 *V2 shipped: 2026-06-25*
 *V3 usability: 2026-07-17 — remote-first CLI, catalog fallback, structured submit, Cursor skill*
+*V3.1 hosting: 2026-08-26 — edge Worker origin + container entrypoint (pending CF credentials)*
 *V4 cloud-security: 2026-08-26 — defensive vertical + ranked score*
 *Agents: Madlib + Four Tet + Hermes + Cursor*

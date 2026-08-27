@@ -1,0 +1,12 @@
+# Prefer the root Dockerfile (builds index into the image).
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/healthz"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+
+[service]
+internalPort = 8000

@@ -84,6 +84,7 @@ Tool schemas: `GET https://aicode.iamfaulty.com/api/v1/tools`
 | What | URL |
 |------|-----|
 | Live site | https://aicode.iamfaulty.com |
+| Deploy / fix 502 | [`DEPLOY.md`](DEPLOY.md) |
 | Agent overview | https://aicode.iamfaulty.com/llms.txt |
 | OpenAPI | https://aicode.iamfaulty.com/static/openapi.json |
 | Static catalog | https://raw.githubusercontent.com/peteedoo/agent-code-library/main/www/catalog.json |
